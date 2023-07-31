@@ -17,6 +17,12 @@ const routes = [
       },
       {
         path: '/file', name: 'File', component: ()=>import('../views/File.vue'),
+      },
+      {
+        path: '/map', name: 'Map', component: ()=>import('../views/Map.vue'),
+      },
+      {
+        path: '/role', name: 'Role', component: ()=>import('../views/Role.vue'),
       }
     ]
   },
@@ -24,6 +30,11 @@ const routes = [
     path: '/login',
     name: 'Login',
     component: ()=>import('../views/front/Login.vue')
+  },
+  {
+    path: '/register',
+    name: 'Register',
+    component: ()=>import('../views/front/Register.vue')
   }
 
 ]

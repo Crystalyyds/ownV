@@ -2,7 +2,7 @@
   <div style="width: 220px ">
     <el-col>
       <el-menu
-          style="height: 781px;width: 220px ;border-right: 0px"
+          style="height: 775px;width: 220px ;border-right: 0px"
           router
           default-active="http://localhost:8080"
           class="el-menu-vertical-demo"
@@ -22,6 +22,14 @@
         <el-menu-item index="/file">
           <i class="el-icon-setting"></i>
           <span slot="title">文件</span>
+        </el-menu-item>
+        <el-menu-item index="/map">
+          <i class="el-icon-setting"></i>
+          <span slot="title">地图</span>
+        </el-menu-item>
+        <el-menu-item index="/role">
+          <i class="el-icon-setting"></i>
+          <span slot="title">权限</span>
         </el-menu-item>
       </el-menu>
     </el-col>

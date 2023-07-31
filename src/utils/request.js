@@ -1,5 +1,6 @@
 import axios from 'axios'
 import router from "@/router";
+import ElementUI from "element-ui";
 
 const request = axios.create({
     baseURL: '',
@@ -18,6 +19,7 @@ request.interceptors.request.use(config => {
 
     return config
 }, error => {
+
     return Promise.reject(error)
 });
 
@@ -33,19 +35,21 @@ request.interceptors.response.use(
         // 兼容服务端返回的字符串数据
         if (typeof res === 'string') {
             res = res ? JSON.parse(res) : res
+            // console.log("ok")
         }
         // 当权限验证不通过的时候给出提示
         if (res.code === '401') {
-            // ElementUI.Message({
-            //     message: res.msg,
-            //     type: 'error'
-            // });
-            router.push("/login")
+            ElementUI.Message({
+                message : res.msg,
+                type : 'error'
+            })
+            // router.push("/login")
         }
         return res;
     },
     error => {
         console.log('err' + error) // for debug
+        // console.log("Ok")
         return Promise.reject(error)
     }
 )
