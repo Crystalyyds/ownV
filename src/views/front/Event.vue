@@ -52,7 +52,7 @@ export default {
   },
   methods: {
     load() {
-      this.request.get("http://localhost:9090/event/users/" + 1).then(res => {
+      this.request.get("/event/users/" + 1).then(res => {
         this.ok = res.data
         for (var t in res.data) {
           var arr = this.ok[t].createTime.split(".")
@@ -62,7 +62,7 @@ export default {
     },
     del(id) {
       console.log(id)
-      this.request.delete("http://localhost:9090/event/delete/" + id).then(res => {
+      this.request.delete("/event/delete/" + id).then(res => {
         if (res.code == '200') {
           this.$message('删除成功')
         } else {

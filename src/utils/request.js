@@ -3,7 +3,7 @@ import router from "@/router";
 import ElementUI from "element-ui";
 
 const request = axios.create({
-    baseURL: '',
+    baseURL: 'http://localhost:9090',
     timeout: 30000
 })
 
@@ -12,9 +12,9 @@ const request = axios.create({
 // 比如统一加token，对请求参数统一加密
 request.interceptors.request.use(config => {
     config.headers['Content-Type'] = 'application/json;charset=utf-8';
-    let user = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null
-    if (user) {
-        config.headers['token'] = user.token;  // 设置请求头
+    let token = localStorage.getItem("token") ? JSON.parse(localStorage.getItem("token")) : null
+    if (token) {
+        config.headers['token'] = token;  // 设置请求头
     }
 
     return config
@@ -37,18 +37,21 @@ request.interceptors.response.use(
             res = res ? JSON.parse(res) : res
             // console.log("ok")
         }
-        // 当权限验证不通过的时候给出提示
-        if (res.code === '401') {
-            ElementUI.Message({
-                message : res.msg,
-                type : 'error'
-            })
-            // router.push("/login")
-        }
+
         return res;
     },
-    error => {
-        console.log('err' + error) // for debug
+    async error => {
+        console.log('err', error) // for debug
+        const res = error.response
+        if (res.status === 401) {
+            ElementUI.Message({
+                message: res?.data?.msg ?? '无token',
+                type: 'error'
+            })
+            localStorage.removeItem("token")
+            // router.push("/login")
+            return
+        }
         // console.log("Ok")
         return Promise.reject(error)
     }

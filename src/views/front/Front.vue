@@ -89,7 +89,7 @@ export default {
     },
     save() {
       this.form.userId = 4
-      this.request.post("http://localhost:9090/event/add/"+4,this.form).then(res => {
+      this.request.post("/event/add/"+4,this.form).then(res => {
         console.log(res)
         if (res.code === '200') {
           this.$message.success("行程添加成功")
@@ -102,7 +102,7 @@ export default {
       })
     },
     load(){
-      this.request.get("http://localhost:9090/user/"+4).then(res=>{
+      this.request.get("/user/"+4).then(res=>{
         this.form.name = res.data.username
         this.userName = res.data.username
       })

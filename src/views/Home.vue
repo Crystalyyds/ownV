@@ -5,7 +5,7 @@
     </el-aside>
     <el-container style="">
       <el-header style="height: 80px;padding:0px">
-        <Header/>
+        <Header :user="user"/>
       </el-header>
       <el-main>
         <router-view></router-view>
@@ -17,19 +17,35 @@
 <script>
 import Header from "@/components/Header.vue";
 import Aside from "@/components/Aside.vue";
+import store from "@/store";
 export default {
   name: "Front",
-  components:{
-    Header,Aside
+  components: {
+    Header, Aside
   },
   data() {
     return {
-      user: localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : {}
+      user: {},
+    }
+  },
+  methods: {
+    load() {
+      this.request.get("/user/find").then(res => {
+        this.user = res?.data ?? {}
+        // console.log(this.user)
+        store.commit("setUser",this.user)
+        // console.log(store.getters.getUser.nickname)
+      })
     }
   },
   created() {
-
+    this.load()
+    // console.log(this.user)
   },
+  computed:{
+    ok(){
+    }
+  }
 }
 </script>
 

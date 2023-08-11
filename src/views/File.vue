@@ -97,7 +97,7 @@ export default {
   },
   methods: {
     load() {
-      this.request.get("http://localhost:9090/file/page", {
+      this.request.get("/file/page", {
         params: {
           pageNum: this.pageNum,
           pageSize: this.pageSize,

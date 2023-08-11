@@ -60,14 +60,14 @@ export default {
       this.load()
     },
     load() {
-      this.request.get("http://localhost:9090/role/list").then(res => {
+      this.request.get("/role/list").then(res => {
         this.tableData = res.data
         this.total = res.data.total
       })
     }
     ,
     del(id) {
-      this.request.delete("http://localhost:9090/role/" + id).then(res => {
+      this.request.delete("/role/" + id).then(res => {
         if (res.code === '200') {
           this.$message.success("删除成功")
           this.load()
@@ -81,7 +81,7 @@ export default {
       this.form = {}
     },
     save() {
-      this.request.post("http://localhost:9090/role/add", this.form).then(res => {
+      this.request.post("/role/add", this.form).then(res => {
         if (res.code === '200') {
           this.$message.success("保存成功")
           this.dialogFormVisible = false
