@@ -43,8 +43,10 @@ export default {
     // console.log(this.user)
   },
   computed:{
-    ok(){
-    }
+
+  },
+  mounted(){
+    document.querySelector('body').setAttribute('style',  'margin : 0px');
   }
 }
 </script>

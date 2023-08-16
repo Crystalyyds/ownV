@@ -9,8 +9,8 @@
         <span class="el-dropdown-link">
           {{ user.username }}<i class="el-icon-arrow-down el-icon--right"></i>
         </span>
-        <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item style="font-size: 14px; padding: 5px 0">
+        <el-dropdown-menu slot="dropdown" style="width: 60px">
+          <el-dropdown-item style="font-size: 14px; padding: 5px 0;text-align: center">
             <span style="text-decoration: none" @click="logout">退出</span>
           </el-dropdown-item>
         </el-dropdown-menu>

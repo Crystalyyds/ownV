@@ -11,16 +11,25 @@ const store = new Vuex.Store({
             username: "hello world",
             nickname: undefined,
             address : undefined,
-        }
+        },
+        historySearch:[
+            "我的家"
+        ]
     },
     mutations:{
         setUser(state,user){
             state.Userstate = user
+        },
+        insertSearch(state,location){
+            state.historySearch.push(location)
         }
     },
     getters:{
         getUser: function (state){
             return state.Userstate
+        },
+        getPoi: function (state){
+            return state.historySearch
         }
     }
 

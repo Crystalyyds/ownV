@@ -99,6 +99,8 @@
 
 <script>
 
+import router from "@/router";
+
 export default {
   name: "Event",
   data() {
@@ -134,7 +136,7 @@ export default {
           phone: this.phone,
         }
       }).then(res => {
-        this.ok = res.data.records
+        this.ok = res?.data?.records ?? []
         this.total = res.data.total
       })
     },
@@ -200,10 +202,17 @@ export default {
       this.load()
     },
     jump(row, event, column) {
-      this.$router.push("/person/" + row.id)
+      // this.$router.push("/home/person/" + row.id)
+      const url = router.resolve({
+        path: '/home/person/' + row.id
+      })
+      window.open(url.href)
     },
     jump1(row, event, column) {
-      this.$router.push("/home/content/" + row.id)
+      const url = router.resolve({
+        path: '/home/content/' + row.id
+      })
+      window.open(url.href)
     },
     cellHandleclick(row, column, cell, event) {
       //如果规定点击某一列执行，利用column中的label属性

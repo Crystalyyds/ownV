@@ -1,4 +1,4 @@
-<template>
+<template >
   <div style="background-color: rgb(242,243,245)">
     <div class="dd">
       <RecycleScroller
@@ -96,7 +96,7 @@ export default {
 
 .dd {
   background-color: white;
-
+  margin: 0px;
 }
 
 .entry {

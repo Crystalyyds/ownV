@@ -15,21 +15,18 @@
 
 <script>
 
-import Down from "@/components/Down.vue";
 
 export default {
   name: "Content",
-  components: {Down},
   data() {
     return {
       form: {},
     }
   },
   mounted() {
-
     console.log("ok")
     var that = this
-    document.querySelector('body').setAttribute('style', 'background-color: #e6e6e6');
+    document.querySelector('body').setAttribute('style', 'background-color: #e6e6e6; magin:0px');
     var map = new AMap.Map("container", {
       resizeEnable: true
     })
@@ -42,6 +39,9 @@ export default {
         this.form.createTime = arr[0]
       })
     },
+    back(){
+      this.$router.push("/event")
+    }
   },
   created() {
     this.load()
@@ -75,5 +75,11 @@ export default {
   font-size: 20px;
   right: 300px;
   top: 30px;
+}
+.back{
+  position: absolute;
+  left: 20px;
+  width: 50px;
+  height: 50px;
 }
 </style>

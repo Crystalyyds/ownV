@@ -4,6 +4,7 @@
       <el-menu-item index="main" style="width: 133px">处理中心</el-menu-item>
       <el-menu-item index="event" style="width: 133px">处理中心</el-menu-item>
       <el-menu-item index="me" style="width: 133px">个人中心</el-menu-item>
+
     </el-menu>
   </div>
 </template>
