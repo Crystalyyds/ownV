@@ -10,7 +10,7 @@
           <el-autocomplete
               popper-class="my-autocomplete"
               v-model="state"
-              :fetch-suggestions="querySearch"
+              :fetch-suggestions="(queryString,cb)=>querySearch(queryString,cb,loc)"
               placeholder="请输入内容"
               @select="handleSelect">
             <i
@@ -32,12 +32,6 @@
         </div>
       </div>
     </div>
-    <div class="info">
-      <h4 id='status' class="hh"></h4>
-      <hr>
-      <p id='result' class="pp"></p>
-      <hr>
-    </div>
   </div>
 </template>
 
@@ -45,6 +39,7 @@
 
 import AMapLoader from "@amap/amap-jsapi-loader";
 import store from "@/store";
+import ElementUI from "element-ui";
 
 export default {
   name: "MapP",
@@ -54,7 +49,9 @@ export default {
   data() {
     return {
       restaurants: [],
-      state: ''
+      state: '',
+      loc: '',
+      abc:'abc'
     }
   },
   mounted() {
@@ -62,6 +59,7 @@ export default {
   },
   methods: {
     initMap() {
+      var that = this
       AMapLoader.load({
         key: "3129bb5df6f2389e9b16ace8972950ad",             // 申请好的Web端开发者Key，首次调用 load 时必填
         version: "2.0",      // 指定要加载的 JSAPI 的版本，缺省时默认为 1.4.15
@@ -69,53 +67,62 @@ export default {
       }).then((AMap) => {
         var map = new AMap.Map('container', {
           resizeEnable: true,
-          zoom : 13
+          zoom: 13
         });
         AMap.plugin('AMap.Geolocation', function () {
           var geolocation = new AMap.Geolocation({
             enableHighAccuracy: true,//是否使用高精度定位，默认:true
-            timeout: 10000,          //超过10秒后停止定位，默认：5s
+            timeout: 5000,          //超过10秒后停止定位，默认：5s
             buttonPosition: 'RB',    //定位按钮的停靠位置
             buttonOffset: new AMap.Pixel(10, 20),//定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
             zoomToAccuracy: true,   //定位成功后是否自动调整地图视野到定位点
-
           });
           map.addControl(geolocation);
           geolocation.getCurrentPosition(function (status, result) {
             if (status === 'complete') {
-              onComplete(result)
+              ElementUI.Message({
+                message: '定位成功',
+                type: 'success'
+              });
+              let lng = result.position.lng.toString()
+              let lat = result.position.lat.toString()
+              that.loc = lng + ',' + lat
+              // console.log(that.loc)
             } else {
-              onError(result)
+              ElementUI.Message({
+                message: '定位失败，请刷新页面',
+                type: 'error'
+              });
             }
           });
         });
-
-        //解析定位结果
-        function onComplete(data) {
-          document.getElementById('status').innerHTML = '定位成功'
-          var str = [];
-          str.push('定位结果：' + data.position);
-          str.push('定位类别：' + data.location_type);
-          if (data.accuracy) {
-            str.push('精度：' + data.accuracy + ' 米');
-          }//如为IP精确定位结果则没有精度信息
-          str.push('是否经过偏移：' + (data.isConverted ? '是' : '否'));
-          document.getElementById('result').innerHTML = str.join('<br>');
-          // console.log(data)
-        }
-
-        //解析定位错误信息
-        function onError(data) {
-          document.getElementById('status').innerHTML = '定位失败'
-          document.getElementById('result').innerHTML = '失败原因排查信息:' + data.message;
-        }
-
       }).catch(e => {
         console.log(e);
       })
     },
-    querySearch(queryString, cb) {
-      console.log(queryString)
+    querySearch(queryString, cb, loc1) {
+      if (queryString === "") {
+        this.restaurants = store.getters.getPoi
+      } else {
+        this.request.get("/amap/poi",{
+          params:{
+            keyword: queryString,
+            location: loc1,
+          }
+        }).then(res=>{
+          // console.log(res.data)
+          this.restaurants = res.data.pois
+          // console.log("abc",this.restaurants)
+        })
+      }
+      // const results = queryString ? restaurants.filter(this.createFilter(queryString)) : restaurants;
+      // console.log("ok", typeof this.restaurants)
+      cb(this.restaurants);
+    },
+    createFilter(queryString) {
+      return (restaurant) => {
+        return (restaurant.address.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
+      };
     },
     handleSelect(item) {
       console.log(item);
@@ -126,6 +133,8 @@ export default {
   },
   created() {
     this.restaurants = store.getters.getPoi
+    // store.commit("insertSearch","我家在这")
+    // console.log("ok",this.restaurants)
   }
 }
 </script>
