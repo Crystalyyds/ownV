@@ -5,32 +5,45 @@ Vue.use(Vuex)
 
 
 const store = new Vuex.Store({
-    state : {
+    state: {
         Userstate: {
-            userId : undefined,
+            userId: undefined,
             username: "hello world",
             nickname: undefined,
-            address : undefined,
+            address: undefined,
         },
-        historySearch:[
-            {address: "我的家"}
+        historySearch: [
+            {name: "ok1", address: "我的家1",location:""},
         ]
     },
-    mutations:{
-        setUser(state,user){
+    mutations: {
+        setUser(state, user) {
             state.Userstate = user
         },
-        insertSearch(state,newAddress){
-            state.historySearch.push({
-                address: newAddress
-            })
+        insertSearch(state, newAddress) {
+            if(!state.historySearch.find((item) => item.name===newAddress.nickname)){
+                const temp = {
+                    name: newAddress.nickname,
+                    address: newAddress.address,
+                }
+                if(newAddress.location){
+                    temp.location = "116.473168,39.993015"//北京
+                }else{
+                    temp.location = newAddress.location
+                }
+                state.historySearch.push({
+                    temp
+                })
+            }
+            // console.log(state.historySearch)
+
         }
     },
-    getters:{
-        getUser: function (state){
+    getters: {
+        getUser: function (state) {
             return state.Userstate
         },
-        getPoi: function (state){
+        getPoi: function (state) {
             return state.historySearch
         }
     }

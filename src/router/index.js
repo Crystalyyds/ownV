@@ -41,6 +41,11 @@ const routes = [
         component: () => import('../views/front/Register.vue')
     },
     {
+        path: '/404',
+        name: '404',
+        component: () => import ('../views/404.vue')
+    },
+    {
         path: '/home',
         name: 'Home',
         component: () => import('../views/front/Home.vue'),
@@ -52,6 +57,10 @@ const routes = [
                 path: 'content/:id', name: 'Content', component: () => import('../views/front/Content.vue')
             },
         ]
+    },
+    {
+        path: '*',//匹配未定义的路由
+        redirect: '/404'//重定向
     }
 
 ]

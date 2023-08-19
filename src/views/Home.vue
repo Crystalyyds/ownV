@@ -34,6 +34,7 @@ export default {
         this.user = res?.data ?? {}
         // console.log(this.user)
         store.commit("setUser",this.user)
+        store.commit("insertSearch",this.user)
         // console.log(store.getters.getUser.nickname)
       })
     }

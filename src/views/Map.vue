@@ -12,11 +12,6 @@ export default {
     return {}
   },
   methods: {
-    load() {
-      var map = new AMap.Map('container');
-// 构造地图对象的方法二：使用地图容器对象创建
-      map = new AMap.Map(document.getElementById("container"));
-    }
   },
   created() {
   }
