@@ -23,7 +23,7 @@
             </template>
           </el-autocomplete>
         </div>
-        <div class="direntry usel">
+        <div class="direntry usel" @click="drawer=true">
           <img class="fa-dir icontip"
                src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB8AAAAkCAYAAABxE+FXAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyhpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNS1jMDIxIDc5LjE1NTc3MiwgMjAxNC8wMS8xMy0xOTo0NDowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTQgKE1hY2ludG9zaCkiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6RTdGRDQzNzk1MUE0MTFFNkJENThBRUM3QkJFQTlBNEMiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6RTdGRDQzN0E1MUE0MTFFNkJENThBRUM3QkJFQTlBNEMiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDpFN0ZENDM3NzUxQTQxMUU2QkQ1OEFFQzdCQkVBOUE0QyIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDpFN0ZENDM3ODUxQTQxMUU2QkQ1OEFFQzdCQkVBOUE0QyIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PrQHkWQAAAG5SURBVHja5Jg/KEVRHMfPfe+RpEgkw/MkUiKDwYCIRFGKzUp5A7IYrJJBBpNFPYmISGGQ9J56CwaDxWAji2LwL0We76nfIN0/597zx+BXn+Gdezqf3vnd3/mdrlWbyDDByAdp8AB6wBuTjJDgPAskQB1oA0s0ZkQ+Dvp//B4EUybkjWDOZnwG9OmUF4JNkO2QijVKhXI5X3wFxFzm5IE9UKxaPgl6BdYoBzsOuxNI3kQ5FY0WsKhCXgQ2QJbPtYbAhIyc53kVRAO+Q/OgK6ic1263RPWEqTqq/cpbwTSTD34MH4ACUXkJ5TnM1EQl2PZaL0QTeJ5LmdroAAtecp7nTqYnRkHcTT7G9Mas04MI5dsrMi5HsPaWqiX+rzxiYH1e81XU/Sro/TnjnVCXPEadrgHk2jxvBx+q5VG669UIzG1WJc8BA/RvLZM5LwMjdA/wE2lZeT0Y9nmFegGnYF9WHhco1ztwCa7BDXhWte1O4k9wDpLg1mSdX4F1cG/ykOGHxy44cmlEWuRfYJm22vjZvuVXrEp+AVJ/0dXe6eKptaU+2ozxLxPH4Em3/PDXZ5BX2uoTmW37FmAA/hxExSsxtXsAAAAASUVORK5CYII="
                draggable="false" data-spm-anchor-id="0.0.0.i0.6b8e1c4eH5RXGG"
@@ -33,7 +33,16 @@
         </div>
       </div>
     </div>
-    <div class="dh"><h2>hello world</h2></div>
+    <Down/>
+    <el-drawer
+        title="我是标题"
+        :visible.sync="drawer"
+        :with-header="false">
+      <h1>选择出行方式</h1>
+      <el-card style="margin-top: 10px"><button class="button button1">行走</button></el-card>
+      <el-card style="margin-top: 10px"><button class="button button1">骑行</button></el-card>
+      <el-card style="margin-top: 10px"><button class="button button1">开车</button></el-card>
+    </el-drawer>
   </div>
 </template>
 
@@ -42,9 +51,13 @@
 import AMapLoader from "@amap/amap-jsapi-loader";
 import store from "@/store";
 import ElementUI from "element-ui";
+import Down from "@/components/Down.vue";
 
 export default {
   name: "MapP",
+  components:{
+    Down,
+  },
   props: {
     userAddress: String,
   },
@@ -59,6 +72,7 @@ export default {
         location:"",
       },
       path:[],
+      drawer: false,
     }
   },
   mounted() {
@@ -171,121 +185,6 @@ export default {
 
 <style scoped>
 
-.map {
-  position: absolute;
-  top: 96px;
-}
-
-.searchbox {
-  margin: 10px 10px;
-  position: relative;
-  z-index: 2201;
-  width: 360px;
-  height: 45px;
-  box-sizing: border-box;
-  background: #fff;
-  border-radius: 3px;
-}
-
-
-.usel {
-  -webkit-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
-.usellogo {
-  display: block;
-  position: absolute;
-  top: 6px;
-  left: 8px;
-  width: 34px;
-  height: 34px;
-  z-index: 99999;
-  cursor: pointer;
-}
-
-.searchbox .direntry {
-  width: 45px;
-  height: 45px;
-  position: absolute;
-  right: 0;
-  top: 0;
-  text-align: center;
-  background-color: #f8f8f8;
-  border-radius: 0 3px 3px 0;
-}
-
-.searchbox .direntry .fa-dir {
-  position: absolute;
-  top: 9px;
-  right: 9px;
-  width: 16.5px;
-  height: 18px;
-  padding: 5px;
-  cursor: pointer;
-}
-
-.searchbox .direntry .close-btn {
-  position: absolute;
-  top: 8.5px;
-  right: 10px;
-  font-size: 15px;
-  display: none;
-  padding: 3px 5px;
-  cursor: pointer;
-}
-
-.iconfont {
-  font-family: iconfont !important;
-  font-size: 16px;
-  font-style: normal;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-
-::v-deep .el-input__inner {
-  height: 45px;
-  line-height: 28px;
-}
-
-::v-deep .el-popper[x-placement^=bottom] {
-  margin-top: -1px;
-}
-
-::v-deep .el-autocomplete {
-  position: relative;
-  display: inline-block;
-  width: 268px;
-}
-
-.li {
-  line-height: normal;
-  padding: 7px;
-}
-
-.name {
-  text-overflow: ellipsis;
-  overflow: hidden;
-}
-
-.addr {
-  font-size: 12px;
-  color: #b4b4b4;
-}
-
-.highlighted .addr {
-  color: #ddd;
-}
-.dh{
-  position: absolute;
-  Bottom: 20px;
-  left: 240px;
-  width: 520px;
-  height: 60px;
-  background-color: #909399;
-  z-index: 99999;
-}
+@import "../assets/css/map.css";
 
 </style>

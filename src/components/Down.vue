@@ -1,11 +1,29 @@
 <template>
-  <div style="position: absolute; top: 700px;">
-    <el-menu :default-active="activeIndex" :router="true" class="el-menu-demo" mode="horizontal" @select="handleSelect">
-      <el-menu-item index="main" style="width: 133px">处理中心</el-menu-item>
-      <el-menu-item index="event" style="width: 133px">处理中心</el-menu-item>
-      <el-menu-item index="me" style="width: 133px">个人中心</el-menu-item>
-
-    </el-menu>
+  <div class="dh">
+    <el-row :gutter="20">
+      <el-col :span="6">
+        <h1 class="el-icon-s-promotion d1" @click="drawer = true"></h1>
+        <h1 style="margin-top: 5px">Walking</h1>
+      </el-col>
+      <el-col :span="6">
+        <h1 class="el-icon-s-promotion d1" ></h1>
+        <h1 style="margin-top: 5px">Driving</h1>
+      </el-col>
+      <el-col :span="6">
+        <h1 class="el-icon-s-promotion d1" ></h1>
+        <h1 style="margin-top: 5px">go</h1>
+      </el-col>
+      <el-col :span="6">
+        <h1 class="el-icon-s-promotion d1" ></h1>
+        <h1 style="margin-top: 5px">go</h1>
+      </el-col>
+    </el-row>
+    <el-drawer
+        title="我是标题"
+        :visible.sync="drawer"
+        :with-header="false">
+      <span>我来啦!</span>
+    </el-drawer>
   </div>
 </template>
 
@@ -14,25 +32,32 @@ export default {
   name: "Down",
   data(){
     return{
-      activeIndex: '',
+      drawer: false,
     }
   },
   methods:{
-    handleSelect(key, keyPath){
-      // console.log(keyPath)
-      // this.activeIndex = keyPath
-    }
   }
 }
 </script>
 
 <style scoped>
-.el-menu-demo {
-  width: 1432px;
-  height: 72px;
-  color: rgb(255, 208, 75);
-  border-bottom-color: rgb(255, 208, 75);
-  background-color: rgb(84, 92, 100);
+.dh{
+  position: absolute;
+  Bottom: 20px;
+  left: 240px;
+  width: 520px;
+  height: 60px;
+  background-color: #909399;
+  z-index: 99999;
 }
+
+.d1{
+  margin-top: 6px;
+  margin-bottom: 0px
+}
+
+
+
+
 
 </style>
