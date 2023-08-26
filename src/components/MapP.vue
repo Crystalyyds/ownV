@@ -204,7 +204,7 @@ export default {
             panel: "panel"
           })
           that.walk = walking
-          console.log(typeof walking)
+          // console.log(walking)
           walking.search(new AMap.LngLat(that.origin[0], that.origin[1]), new AMap.LngLat(that.direction[0], that.direction[1]), function (status, result) {
             if (status === 'complete') {
               that.drawer = false
@@ -214,12 +214,6 @@ export default {
             }
           });
 
-          if(walking)
-          {
-            // 调用clear()函数清除上一次结果，可以清除地图上绘制的路线以及路径文本结果
-            console.log("ok")
-            walking.clear();
-          }
         });
       } else if (e.target.id === '2') {
         AMap.plugin("AMap.Riding", function () {
@@ -257,12 +251,14 @@ export default {
     },
     cancel(){
       this.buttoncancel = false;
+      this.mapNull()
       let op = document.getElementById("panel")
       op.innerHTML = ""
-      this.mapNull()
     },
     mapNull(){
-      this.map.clearMap();
+      if(this.walk.render) this.walk.render.clear()
+      if(this.drive.render) this.drive.render.clear()
+      if(this.ride.render) this.ride.render.clear()
     }
   },
   created() {
