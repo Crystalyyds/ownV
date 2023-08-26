@@ -39,10 +39,18 @@
         :visible.sync="drawer"
         :with-header="false">
       <h1>选择出行方式</h1>
-      <el-card style="margin-top: 10px"><button class="button button1">行走</button></el-card>
-      <el-card style="margin-top: 10px"><button class="button button1">骑行</button></el-card>
-      <el-card style="margin-top: 10px"><button class="button button1">开车</button></el-card>
+      <el-card style="margin-top: 10px">
+        <button id="1" class="button button1" @click="handleClick">行走</button>
+      </el-card>
+      <el-card style="margin-top: 10px">
+        <button id="2" class="button button1" @click="handleClick">骑行</button>
+      </el-card>
+      <el-card style="margin-top: 10px">
+        <button id="3" class="button button1" @click="handleClick">开车</button>
+      </el-card>
     </el-drawer>
+    <button v-if="buttoncancel" style="width: 50px; height: 130px;" class="button button1 button-postion-cancel" @click="cancel">结束导航</button>
+    <div id="panel"></div>
   </div>
 </template>
 
@@ -55,7 +63,7 @@ import Down from "@/components/Down.vue";
 
 export default {
   name: "MapP",
-  components:{
+  components: {
     Down,
   },
   props: {
@@ -69,10 +77,18 @@ export default {
       newgo: {
         name: "",
         address: "",
-        location:"",
+        location: "",
       },
-      path:[],
       drawer: false,
+      origin: [],
+      direction: [],
+      togo: false,
+      howgo: "",
+      mapp: {},
+      buttoncancel : false,
+      walk:{},
+      ride:{},
+      drive:{},
     }
   },
   mounted() {
@@ -84,12 +100,13 @@ export default {
       AMapLoader.load({
         key: "3129bb5df6f2389e9b16ace8972950ad",             // 申请好的Web端开发者Key，首次调用 load 时必填
         version: "2.0",      // 指定要加载的 JSAPI 的版本，缺省时默认为 1.4.15
-        plugins: [''],       // 需要使用的的插件列表，如比例尺'AMap.Scale'等
+        plugins: ['AMap.Geolocation', 'AMap.Driving'],       // 需要使用的的插件列表，如比例尺'AMap.Scale'等
       }).then((AMap) => {
         var map = new AMap.Map('container', {
           resizeEnable: true,
           zoom: 13
         });
+        that.map = map
         AMap.plugin('AMap.Geolocation', function () {
           var geolocation = new AMap.Geolocation({
             enableHighAccuracy: true,//是否使用高精度定位，默认:true
@@ -108,6 +125,8 @@ export default {
               let lng = result.position.lng.toString()
               let lat = result.position.lat.toString()
               that.loc = lng + ',' + lat
+              that.origin.push(result.position.lng)
+              that.origin.push(result.position.lat)
               // console.log(that.loc)
             } else {
               ElementUI.Message({
@@ -125,43 +144,39 @@ export default {
       if (this.isNull(queryString)) {
         this.restaurants = store.getters.getPoi
       } else {
-        // this.request.get("/amap/poi",{
-        //   params:{
-        //     keyword: queryString,
-        //     location: loc1,
-        //   }
-        // }).then(res=>{
-        //   if(res.data.infocode === "10000"){
-        //     this.restaurants = res.data.pois
-        //   }else{
-        //     ElementUI.Message({
-        //       message: '请输入明确的目的地的，尽量输入2-3个字',
-        //       type:"success"
-        //     })
-        //   }
-        //
-        // })
+        this.request.get("/amap/poi", {
+          params: {
+            keyword: queryString,
+            location: loc1,
+          }
+        }).then(res => {
+          if (res.data.infocode === "10000") {
+            this.restaurants = res.data.pois
+          } else {
+            ElementUI.Message({
+              message: '请输入明确的目的地的，尽量输入2-3个字',
+              type: "success"
+            })
+          }
+        })
       }
-      // const results = queryString ? restaurants.filter(this.createFilter(queryString)) : restaurants;
-      // console.log("ok", typeof this.restaurants)
+
       cb(this.restaurants);
     },
-    createFilter(queryString) {
-      return (restaurant) => {
-        return (restaurant.address.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
-      };
-    },
     handleSelect(item) {
-      // console.log(item);
-      // console.log(item.name)
-      this.state = item.address
+      this.state = item.name
       this.newgo = {
         nickname: item.name,
         address: item.address,
       }
+      const a = item.location.split(',')
+      if(this.direction.length===2) this.direction = []
+      for (var t in a) {
+        this.direction.push(parseFloat(a[t]))
+      }
+      console.log(this.direction.length)
     },
     handleIconClick() {
-      // console.log(this.newgo)
       store.commit("insertSearch", this.newgo)
     },
     isNull(str) {
@@ -172,9 +187,82 @@ export default {
       const re = new RegExp(regu);
       return re.test(str);
     },
-    go(){
-      const path = []
-      path.push()
+    go() {
+
+    },
+    handleClick(e) {
+      if(this.direction.length!==2){
+        this.$message.error("目的地不能为空");
+        return
+      }
+      this.mapNull()
+      const that = this
+      if (e.target.id === '1') {
+        AMap.plugin("AMap.Walking", function () {
+          let walking = new AMap.Walking({
+            map: that.map,
+            panel: "panel"
+          })
+          that.walk = walking
+          console.log(typeof walking)
+          walking.search(new AMap.LngLat(that.origin[0], that.origin[1]), new AMap.LngLat(that.direction[0], that.direction[1]), function (status, result) {
+            if (status === 'complete') {
+              that.drawer = false
+              that.buttoncancel = true
+            } else {
+              this.message.error("道路规划失败或是距离太远，请不要跨越城市")
+            }
+          });
+
+          if(walking)
+          {
+            // 调用clear()函数清除上一次结果，可以清除地图上绘制的路线以及路径文本结果
+            console.log("ok")
+            walking.clear();
+          }
+        });
+      } else if (e.target.id === '2') {
+        AMap.plugin("AMap.Riding", function () {
+          let riding = new AMap.Riding({
+            map: that.map,
+            panel: "panel"
+          })
+          that.ride = riding
+          riding.search(new AMap.LngLat(that.origin[0], that.origin[1]), new AMap.LngLat(that.direction[0], that.direction[1]), function (status, result) {
+            if (status === 'complete') {
+              that.drawer = false
+              that.buttoncancel = true
+            } else {
+              this.message.error("道路规划失败或是距离太远，请不要跨越城市")
+            }
+          });
+        })
+      } else if (e.target.id === '3') {
+        AMap.plugin("AMap.Driving", function () {
+          let driving = new AMap.Driving({
+            map: that.map,
+            panel: "panel"
+          });
+          that.drive = driving
+          driving.search(new AMap.LngLat(that.origin[0], that.origin[1]), new AMap.LngLat(that.direction[0], that.direction[1]), function (status, result) {
+            if (status === 'complete') {
+              that.drawer = false
+              that.buttoncancel = true
+            } else {
+              this.message.error("道路规划失败")
+            }
+          });
+        })
+      }
+    },
+    cancel(){
+      this.buttoncancel = false;
+      let op = document.getElementById("panel")
+      op.innerHTML = ""
+      this.mapNull()
+    },
+    mapNull(){
+      this.map.clearMap();
     }
   },
   created() {
@@ -185,6 +273,27 @@ export default {
 
 <style scoped>
 
+
+::v-deep .el-input__inner {
+  height: 45px;
+  line-height: 28px;
+}
+
+::v-deep .el-popper[x-placement^=bottom] {
+  margin-top: -1px;
+}
+
+::v-deep .el-autocomplete {
+  position: relative;
+  display: inline-block;
+  width: 268px;
+}
+
+::v-deep .el-card__body {
+  padding: 10px 10px 10px 10px;
+}
+
 @import "../assets/css/map.css";
 
 </style>
+

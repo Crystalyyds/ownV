@@ -24,13 +24,30 @@
     </div>
     <div>
       <el-table
-          ref="multipleTable"
           :data="ok"
-          :row-style="{height: '60px'}"
-          tooltip-effect="dark"
           style="width: 100%"
           @cell-click="cellHandleclick"
-          @selection-change="handleSelectionChange">
+          border stripe
+          @selection-change="handleSelectionChange"
+      >
+        <el-table-column type="expand">
+          <template slot-scope="props">
+            <el-form label-position="left" inline class="demo-table-expand">
+              <el-form-item label="用户">
+                <span>{{ props.row.name }}</span>
+              </el-form-item>
+              <el-form-item label="标题">
+                <span>{{ props.row.title }}</span>
+              </el-form-item>
+              <el-form-item label="时间">
+                <span>{{ props.row.createTime }}</span>
+              </el-form-item>
+              <el-form-item label="内容">
+                <span>{{ props.row.content }}</span>
+              </el-form-item>
+            </el-form>
+          </template>
+        </el-table-column>
         <el-table-column
             type="selection"
             width="55">
@@ -230,5 +247,19 @@ export default {
 </script>
 
 <style scoped>
+
+.demo-table-expand {
+  font-size: 0;
+}
+.demo-table-expand label {
+  width: 90px;
+  color: #99a9bf;
+}
+::v-deep .demo-table-expand .el-form-item {
+  margin-right: 0;
+  margin-bottom: 0;
+  padding-left: 10px;
+  width: 50%;
+}
 
 </style>

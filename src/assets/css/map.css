@@ -71,25 +71,6 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
-
-::v-deep .el-input__inner {
-    height: 45px;
-    line-height: 28px;
-}
-
-::v-deep .el-popper[x-placement^=bottom] {
-    margin-top: -1px;
-}
-
-::v-deep .el-autocomplete {
-    position: relative;
-    display: inline-block;
-    width: 268px;
-}
-::v-deep .el-card__body{
-    padding: 10px 10px 10px 10px;
-}
-
 .li {
     line-height: normal;
     padding: 7px;
@@ -127,6 +108,29 @@
 }
 
 .button1:hover {
-    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+    box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
     background-color: rgb(59 225 175);
 }
+
+#panel {
+    position: fixed;
+    background-color: white;
+    max-height: 90%;
+    overflow-y: auto;
+    top: 85px;
+    right: 50px;
+    width: 280px;
+}
+
+#panel .amap-call {
+    background-color: #009cf9;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+
+.button-postion-cancel{
+    position: absolute;
+    right: 327px;
+}
+
+
