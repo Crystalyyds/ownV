@@ -37,7 +37,7 @@
 
 <script>
 import Down from "@/components/Down.vue";
-import user from "@/views/User.vue";
+import user from "@/views/manage/User.vue";
 export default {
   name: "Front",
   components: {Down},

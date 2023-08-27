@@ -2,7 +2,7 @@
   <div style="width: 220px ">
     <el-col>
       <el-menu
-          style="height: 775px;width: 220px ;border-right: 0px"
+          style="height: 769px;width: 220px ;border-right: 0px"
           router
           default-active="http://localhost:8080"
           class="el-menu-vertical-demo"
@@ -34,6 +34,10 @@
         <el-menu-item index="/event">
           <i class="el-icon-setting"></i>
           <span slot="title">事件</span>
+        </el-menu-item>
+        <el-menu-item index="/chat">
+          <i class="el-icon-setting"></i>
+          <span slot="title">客服服务</span>
         </el-menu-item>
       </el-menu>
     </el-col>

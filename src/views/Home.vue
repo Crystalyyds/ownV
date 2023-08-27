@@ -1,5 +1,5 @@
 <template>
-  <el-container>
+  <el-container style="height: 769px">
     <el-aside style="width: 220px;height: 100%;">
       <Aside/>
     </el-aside>
@@ -7,7 +7,7 @@
       <el-header style="height: 80px;padding:0px">
         <Header :user="user"/>
       </el-header>
-      <el-main>
+      <el-main style="width: 1197px;height: 693px">
         <router-view></router-view>
       </el-main>
     </el-container>

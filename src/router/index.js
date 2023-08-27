@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Front from "@/views/front/Front.vue";
 
 Vue.use(VueRouter)
 
@@ -14,19 +13,22 @@ const routes = [
                 path: '', name: 'home', component: () => import('../views/About.vue'),
             },
             {
-                path: '/user', name: 'User', component: () => import('../views/User.vue'),
+                path: '/user', name: 'User', component: () => import('../views/manage/User.vue'),
             },
             {
-                path: '/file', name: 'File', component: () => import('../views/File.vue'),
+                path: '/file', name: 'File', component: () => import('../views/manage/File.vue'),
             },
             {
                 path: '/map', name: 'Map', component: () => import('../views/Map.vue'),
             },
             {
-                path: '/role', name: 'Role', component: () => import('../views/Role.vue'),
+                path: '/role', name: 'Role', component: () => import('../views/manage/Role.vue'),
             },
             {
-                path: '/event', name: 'Event', component: () => import('../views/Event.vue'),
+                path: '/event', name: 'Event', component: () => import('../views/manage/Event.vue'),
+            },
+            {
+                path: '/chat', name: 'Chat', component: () => import('../views/cserve/Chat.vue')
             },
         ]
     },
