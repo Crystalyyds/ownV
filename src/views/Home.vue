@@ -1,13 +1,13 @@
 <template>
-  <el-container style="height: 769px">
-    <el-aside style="width: 220px;height: 100%;">
+  <el-container style="min-height: 100vh">
+    <el-aside style="width: 220px;">
       <Aside/>
     </el-aside>
-    <el-container style="">
+    <el-container style="width: 100%">
       <el-header style="height: 80px;padding:0px">
         <Header :user="user"/>
       </el-header>
-      <el-main style="width: 1197px;height: 693px">
+      <el-main style="width: 100%;height: 100%">
         <router-view></router-view>
       </el-main>
     </el-container>
