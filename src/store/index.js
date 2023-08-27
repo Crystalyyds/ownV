@@ -8,7 +8,7 @@ const store = new Vuex.Store({
     state: {
         Userstate: {
             userId: undefined,
-            username: "hello world",
+            username: undefined,
             nickname: undefined,
             address: undefined,
         },
