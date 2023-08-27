@@ -1,9 +1,13 @@
 <template>
   <div>
-    <h1>聊天室</h1>
-    <ul class="infinite-list" v-infinite-scroll="load" style="overflow:auto">
-      <li v-for="i in count" class="infinite-list-item">{{ i }}</li>
-    </ul>
+    <el-container>
+      <el-aside>
+        <el-input v-model="input" placeholder="请输入内容"></el-input>
+        <ul class="infinite-list listc" v-infinite-scroll="load" style=""  >
+          <li v-for="i in count" class="infinite-list-item">{{i }}</li>
+        </ul>
+      </el-aside>
+    </el-container>
   </div>
 </template>
 
@@ -14,12 +18,13 @@ export default {
   data(){
     return{
       count: 20,
+      input:"",
     }
 
   },
   methods:{
     load(){
-      // this.count += 2
+      this.count += 2
     }
   },
   created() {
@@ -34,7 +39,16 @@ export default {
 }
 
 .listc{
-  width: 310px;
-  height: 1300px;
+  overflow:auto;
+  height:calc(50vh - 2px);
+  width: 250px;
+  list-style: none;
+}
+.lic{
+  float:left
+}
+
+::-webkit-scrollbar {
+  width: 0px;
 }
 </style>
