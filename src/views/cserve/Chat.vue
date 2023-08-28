@@ -6,7 +6,14 @@
           <el-input v-model="input" placeholder="请输入内容" class="ipt" suffix-icon="el-icon-search"></el-input>
           <div class="did" style="border:3px solid #000">
             <div v-for="item in users">
-              <div class="listc">用户{{item}}</div>
+              <div class="listc">
+                <div class="block">
+                  <el-avatar v-if="item.avatarUrl" shape="square" :size="50" :src="item.avatarUrl"></el-avatar>
+                  <el-avatar v-else shape="square" :size="50" >私</el-avatar>
+                </div>
+                <div v-if="item.gender===1" class="nameid">男用户{{item.id}}</div>
+                <div v-else class="nameid">女 用户{{item.id}}</div>
+              </div>
             </div>
           </div>
         </div>
@@ -21,8 +28,6 @@
 
 
 <script>
-import Store from "@/store";
-import store from "@/store";
 export default {
   name: "Chat",
   data() {
@@ -30,25 +35,26 @@ export default {
       count: 50,
       input: "",
       users: [],
+      adm:{},
     }
-
   },
   methods: {
-    load() {
-      this.request.get("/client/list/"+1).then(res=>{
-        if(res.code === 200){
+    ok(){
+      const get = async ()=>{
+        await this.request.get("/user/find").then(res=>{
+          this.adm = res.data
+          // console.log(this.adm)
+        })
+        this.request.get("/client/list/"+this.adm.id).then(res=>{
           this.users = res.data
-        }else{
-          this.$message.error("获取客户失败")
-        }
-      })
+        })
+        // console.log(this.adm)
+      }
+      get()
     },
-    get() {
-    }
   },
   created() {
-
-    this.load()
+    this.ok()
   }
 }
 </script>
@@ -76,12 +82,6 @@ export default {
   height: 40px;
 }
 
-.lluser {
-  background-color: #909399;
-  height: 70px;
-  margin-top: 0px;
-}
-
 ::v-deep .el-input--mini .el-input__inner {
   height: 40px;
 }
@@ -90,5 +90,20 @@ export default {
   margin-top: 10px;
   height: 75vh;
   overflow: scroll;
+}
+
+.block{
+  position: relative;
+  width: 70px;
+  height: 60px;
+  margin-top: 10px;
+}
+.nameid{
+  width: 100px;
+  height: 60px;
+  font-size: 18px;
+  position: relative;
+  left: 100px;
+  top: -45px;
 }
 </style>

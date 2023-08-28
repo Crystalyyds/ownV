@@ -13,6 +13,16 @@ export default {
       this.$message.success("傻逼,我叫你点你就点？")
       // console.log("????")
     }
+  },
+  data(){
+    return{
+      ttt : 1,
+    }
+  },
+  created() {
+    // console.log(this.ttt)
+    // this.ttt = 2;
+    // console.log(this.ttt)
   }
 }
 </script>
