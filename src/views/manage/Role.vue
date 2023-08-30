@@ -60,15 +60,15 @@ export default {
       this.load()
     },
     load() {
-      this.request.get("/role/list").then(res => {
+      this.request.get("/api/role/list").then(res => {
         this.tableData = res.data
         this.total = res.data.total
       })
     }
     ,
     del(id) {
-      this.request.delete("/role/" + id).then(res => {
-        if (res.code === '200') {
+      this.request.delete("/api/role/" + id).then(res => {
+        if (res.code === 200) {
           this.$message.success("删除成功")
           this.load()
         } else {
@@ -81,8 +81,8 @@ export default {
       this.form = {}
     },
     save() {
-      this.request.post("/role/add", this.form).then(res => {
-        if (res.code === '200') {
+      this.request.post("/api/role/add", this.form).then(res => {
+        if (res.code === 200) {
           this.$message.success("保存成功")
           this.dialogFormVisible = false
           this.load()

@@ -144,7 +144,7 @@ export default {
       this.load()
     },
     load() {
-      this.request.get("/event/page", {
+      this.request.get("/api/event/page", {
         params: {
           pageNum: this.pageNum,
           pageSize: this.pageSize,
@@ -176,8 +176,8 @@ export default {
       this.form = {}
     },
     save() {
-      this.request.post("/event/add", this.form).then(res => {
-        if (res.code === '200') {
+      this.request.post("/api/event/add", this.form).then(res => {
+        if (res.code === 200) {
           this.$message.success("保存成功")
           this.A = false
           this.load()
@@ -194,8 +194,8 @@ export default {
       // this.add()
     },
     del(id) {
-      this.request.delete("/event/delete/" + id).then(res => {
-        if (res.code === '200') {
+      this.request.delete("/api/event/delete/" + id).then(res => {
+        if (res.code === 200) {
           this.$message.success("删除成功")
           this.load()
         } else {
@@ -205,8 +205,8 @@ export default {
     },
     delall() {
       let ids = this.multipleTable.map(v => Number(v.id))
-      this.request.post("event/delete/batch", ids).then(res => {
-        if (res.code === '200') {
+      this.request.post("/api/event/delete/batch", ids).then(res => {
+        if (res.code === 200) {
           this.$message.success("批量删除成功")
           this.load()
         } else {

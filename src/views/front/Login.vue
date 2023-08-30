@@ -82,7 +82,7 @@ export default {
   },
   methods: {
     handleLogin() {
-      this.request.post("/user/login", this.form).then(res => {
+      this.request.post("/api/user/login", this.form).then(res => {
         if (res.code === 200) {
           // localStorage.setItem("user", JSON.stringify(res.data))
           localStorage.setItem("token",JSON.stringify(res.data.token))

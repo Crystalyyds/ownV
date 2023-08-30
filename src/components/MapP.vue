@@ -144,7 +144,7 @@ export default {
       if (this.isNull(queryString)) {
         this.restaurants = store.getters.getPoi
       } else {
-        this.request.get("/amap/poi", {
+        this.request.get("/api/amap/poi", {
           params: {
             keyword: queryString,
             location: loc1,

@@ -97,7 +97,7 @@ export default {
   },
   methods: {
     load() {
-      this.request.get("/file/page", {
+      this.request.get("/api/file/page", {
         params: {
           pageNum: this.pageNum,
           pageSize: this.pageSize,
@@ -111,15 +111,15 @@ export default {
       })
     },
     changeEnable(row) {
-      this.request.post("http:localhost:9090/file/update", row).then(res => {
-        if (res.code === '200') {
+      this.request.post("/api/file/update", row).then(res => {
+        if (res.code === 200) {
           this.$message.success("操作成功")
         }
       })
     },
     del(id) {
-      this.request.delete("http:localhost:9090/file/" + id).then(res => {
-        if (res.code === '200') {
+      this.request.delete("/api/file/" + id).then(res => {
+        if (res.code === 200) {
           this.$message.success("删除成功")
           this.load()
         } else {
@@ -133,8 +133,8 @@ export default {
     },
     delBatch() {
       let ids = this.multipleSelection.map(v => v.id)  // [{}, {}, {}] => [1,2,3]
-      this.request.post("http:localhost:9090/file/delete/batch", ids).then(res => {
-        if (res.code === '200') {
+      this.request.post("/api/file/delete/batch", ids).then(res => {
+        if (res.code === 200) {
           this.$message.success("批量删除成功")
           this.load()
         } else {

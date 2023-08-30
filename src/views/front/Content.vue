@@ -33,7 +33,7 @@ export default {
   },
   methods: {
     load() {
-      this.request.get("/event/get/" + this.$route.params.id).then(res => {
+      this.request.get("/api/event/get/" + this.$route.params.id).then(res => {
         this.form = res.data
         var arr = this.form.createTime.split(".")
         this.form.createTime = arr[0]

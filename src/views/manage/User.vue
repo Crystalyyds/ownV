@@ -146,8 +146,8 @@ export default {
     save() {
       if (this.form.role === "Visitor" && this.form.phone !== "") this.form.role = "User"
       console.log(this.form)
-      this.request.post("/user/add", this.form).then(res => {
-        if (res.code === '200') {
+      this.request.post("/api/user/add", this.form).then(res => {
+        if (res.code === 200) {
           this.$message.success("保存成功")
           this.dialogFormVisible = false
           this.load()
@@ -157,10 +157,10 @@ export default {
       })
     },
     load() {
-      this.request.get("/role/list").then(res => {
+      this.request.get("/api/role/list").then(res => {
         this.roles = res?.data ?? []
       })
-      this.request.get("/user/page", {
+      this.request.get("/api/user/page", {
         params: {
           pageNum: this.pageNum,
           pageSize: this.pageSize,
@@ -194,8 +194,8 @@ export default {
       this.dialogFormVisible = true
     },
     del(id) {
-      this.request.delete("/user/" + id).then(res => {
-        if (res.code === '200') {
+      this.request.delete("/api/user/delete/" + id).then(res => {
+        if (res.code === 200) {
           this.$message.success("删除成功")
           this.load()
         } else {
@@ -206,8 +206,8 @@ export default {
     delBatch() {
       let ids = this.multipleSelection.map(v => v.id)  // [{}, {}, {}] => [1,2,3]
       console.log(ids)
-      this.request.post("/user/delete/batch", ids).then(res => {
-        if (res.code === '200') {
+      this.request.post("/api/user/delete/batch", ids).then(res => {
+        if (res.code === 200) {
           this.$message.success("批量删除成功")
           this.load()
         } else {

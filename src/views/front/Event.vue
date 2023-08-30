@@ -52,7 +52,7 @@ export default {
   },
   methods: {
     load() {
-      this.request.get("/event/users/" + 1).then(res => {
+      this.request.get("/api/event/users/" + 1).then(res => {
         this.ok = res.data
         for (var t in res.data) {
           var arr = this.ok[t].createTime.split(".")
@@ -62,8 +62,8 @@ export default {
     },
     del(id) {
       console.log(id)
-      this.request.delete("/event/delete/" + id).then(res => {
-        if (res.code == '200') {
+      this.request.delete("/api/event/delete/" + id).then(res => {
+        if (res.code == 200) {
           this.$message('删除成功')
         } else {
           this.$message('删除失败')

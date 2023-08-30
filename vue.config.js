@@ -10,6 +10,13 @@ module.exports = defineConfig({
                 pathRewrite: {
                     '^/api': ''
                 }
+            },
+            '/oi':{
+                target: 'http://localhost:9998',
+                changeOrigin: true,
+                pathRewrite: {
+                    '^oi':''
+                }
             }
         }
     }

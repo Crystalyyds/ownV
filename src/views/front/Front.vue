@@ -89,9 +89,9 @@ export default {
     },
     save() {
       this.form.userId = 4
-      this.request.post("/event/add/"+4,this.form).then(res => {
+      this.request.post("/api/event/add/"+4,this.form).then(res => {
         console.log(res)
-        if (res.code === '200') {
+        if (res.code === 200) {
           this.$message.success("行程添加成功")
         } else {
           this.$message.error("行程添加失败")
@@ -102,7 +102,7 @@ export default {
       })
     },
     load(){
-      this.request.get("/user/"+4).then(res=>{
+      this.request.get("/api/user/"+4).then(res=>{
         this.form.name = res.data.username
         this.userName = res.data.username
       })

@@ -20,8 +20,7 @@
         </div>
       </el-aside>
       <el-main style="background-color: #009cf9">
-        <div>
-        </div>
+        <Communicate/>
       </el-main>
     </el-container>
   </div>
@@ -29,8 +28,12 @@
 
 
 <script>
+import Communicate from "@/components/Communicate.vue";
 export default {
   name: "Chat",
+  components:{
+    Communicate
+  },
   data() {
     return {
       count: 50,
@@ -42,12 +45,12 @@ export default {
   methods: {
     async ok(){
       const get = async ()=>{
-        await this.request.get("/user/find").then(res=>{
+        await this.request.get("/api/user/find").then(res=>{
           this.adm = res.data
           // console.log(this.adm)
         })
         if(this.adm.id){
-          this.request.get("/client/list/"+this.adm.id,{
+          this.request.get("/api/client/list/"+this.adm.id,{
             params:{
               input: this.input
             }
@@ -62,7 +65,7 @@ export default {
     },
     shou(){
       console.log(this.input)
-      this.request.get("/client/list/"+this.adm.id,{
+      this.request.get("/api/client/list/"+this.adm.id,{
         params:{
           input: this.input
         }

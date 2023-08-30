@@ -3,7 +3,7 @@ import router from "@/router";
 import ElementUI from "element-ui";
 
 const request = axios.create({
-    baseURL: '/api',
+    baseURL: '',
     timeout: 30000
 })
 

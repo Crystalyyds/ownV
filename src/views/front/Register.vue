@@ -104,7 +104,7 @@ export default {
       // console.log(this.key)
       if(this.key) {
         this.form.role = "Visitor"
-        this.request.post("/user/register", this.form).then(res => {
+        this.request.post("/api/user/register", this.form).then(res => {
           if (res.code === "200") {
             this.$message.success("注册成功，请重新登录")
             this.form = {}

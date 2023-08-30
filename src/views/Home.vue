@@ -30,7 +30,7 @@ export default {
   },
   methods: {
     load() {
-      this.request.get("/user/find").then(res => {
+      this.request.get("/api/user/find").then(res => {
         this.user = res?.data ?? {}
         // console.log(this.user)
         store.commit("setUser",this.user)
